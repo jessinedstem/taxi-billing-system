@@ -1,12 +1,15 @@
 package com.example.taxibillingsystem.service;
 
-
 import com.example.taxibillingsystem.contract.request.BookingRequest;
 import com.example.taxibillingsystem.contract.request.TaxiRequest;
 import com.example.taxibillingsystem.contract.response.BookingResponse;
 import com.example.taxibillingsystem.contract.response.TaxiResponse;
+import com.example.taxibillingsystem.exception.BookingNotFoundException;
+import com.example.taxibillingsystem.exception.CancellationFailedException;
+import com.example.taxibillingsystem.exception.UserNotFoundException;
 import com.example.taxibillingsystem.model.Booking;
 import com.example.taxibillingsystem.model.Taxi;
+import com.example.taxibillingsystem.model.TaxiStatus;
 import com.example.taxibillingsystem.model.User;
 import com.example.taxibillingsystem.repository.BookingRepository;
 import com.example.taxibillingsystem.repository.TaxiRepository;
@@ -15,7 +18,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,31 +46,48 @@ public class TaxiService {
         return modelMapper.map(taxi,TaxiResponse.class);
     }
 
-    public BookingResponse bookATaxi(BookingRequest bookingRequest) {
-        User bookedUser=userRepository.findByName(bookingRequest.getUser().getName());
-        Taxi bookedTaxi=taxiRepository.findByDriversName(bookingRequest.getTaxi());
-        Booking booking= Booking.builder()
-                .userId(bookedUser)
+    public BookingResponse bookATaxi(BookingRequest bookingRequest, long userId) {
+        Optional<User> bookedUser = userRepository.findById(userId);
+        if (bookedUser.isEmpty()) {
+            throw new UserNotFoundException("User Not Found");
+        }
+        Taxi bookedTaxi = taxiRepository.findByCurrentLocation(bookingRequest.getPickupLocation());
+        TaxiStatus status;
+        if (bookedTaxi == null) {
+            status = TaxiStatus.WAITING;
+        } else {
+            status = TaxiStatus.CONFIRMED;
+        }
+        Booking booking = Booking.builder()
+                .userId(bookedUser.get())
                 .taxiId(bookedTaxi)
                 .pickupLocation(bookingRequest.getPickupLocation())
                 .dropOffLocation(bookingRequest.getDropOffLocation())
-                .fare(bookingRequest.getFare())
-                .bookingTime(bookingRequest.getBookingTime())
-                .status(bookingRequest.getStatus())
+                .bookingTime(LocalDateTime.now())
+                .status(status)
                 .build();
-        return modelMapper.map(booking,BookingResponse.class);
+        return modelMapper.map(booking, BookingResponse.class);
     }
 
-//    public List<TaxiResponse> getAllBookingDetails(TaxiRequest taxiRequest) {
-//        List<Taxi> taxiResponses1 = taxiRepository.findAllBooking(taxiRequest);
-//        return taxiResponses1.stream().map(taxi -> modelMapper.map(taxi, TaxiResponse.class))
-//                .collect(Collectors.toList());
-//    }
-//
-//    public TaxiResponse cancelABooking(long taxiId) {
-//
-//    }
-//
+    public BookingResponse getBookingDetails(BookingRequest bookingRequest, long bookingId) {
+        Optional<Booking> optionalBooking=bookingRepository.findById(bookingId);
+        if(optionalBooking.isEmpty()){
+            throw new BookingNotFoundException("Booking Not Found");
+        }
+        return modelMapper.map(optionalBooking, BookingResponse.class);
+    }
 
+    public String cancelABooking(long bookingId) {
+        Optional<Booking> optionalBooking=bookingRepository.findById(bookingId);
+        if(optionalBooking.isEmpty()){
+            throw new BookingNotFoundException("Booking Not Found");
+        }
+        bookingRepository.deleteById(bookingId);
+        if(bookingRepository.existsById(bookingId)){
+            throw new CancellationFailedException("Cancellation Failure");
+        }else {
+            return "Successfully cancelled";
+        }
+    }
 }
 

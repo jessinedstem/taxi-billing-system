@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/taxi")
 public class TaxiController {
+
     private final TaxiService taxiService;
 
     @Autowired
@@ -29,23 +30,23 @@ public class TaxiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PostMapping("/bookATaxi")
-    public ResponseEntity<BookingResponse> bookATaxi(@Valid @RequestBody BookingRequest bookingRequest) {
-        {
-            BookingResponse bookingResponse = taxiService.bookATaxi(bookingRequest);
+    @PostMapping("/bookATaxi/{userId}")
+    public ResponseEntity<BookingResponse> bookATaxi(@Valid @RequestBody BookingRequest bookingRequest,
+                                                     @PathVariable long userId) {
+            BookingResponse bookingResponse = taxiService.bookATaxi(bookingRequest,userId);
             return ResponseEntity.status(HttpStatus.CREATED).body(bookingResponse);
-        }
+    }
 
-//    @GetMapping()
-//    public ResponseEntity<List<TaxiResponse>> getAllBookingDetails(@RequestBody TaxiRequest taxiRequest) {
-//        List<TaxiResponse> taxiResponseList = taxiService.getAllBookingDetails(taxiRequest);
-//        return ResponseEntity.ok(taxiResponseList);
-//    }
-//
-//    @DeleteMapping("/{taxiId}")
-//    public ResponseEntity<TaxiResponse> cancelABooking(@PathVariable long taxiId) {
-//        TaxiResponse responseCancel = taxiService.cancelABooking(taxiId);
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseCancel);
-//}
+    @GetMapping("/booking-details/{bookingId}")
+    public ResponseEntity<BookingResponse> getBookingDetails(@RequestBody BookingRequest bookingRequest,
+                                                             @PathVariable long bookingId) {
+        BookingResponse response= taxiService.getBookingDetails(bookingRequest,bookingId);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/cancel/{bookingId}")
+    public ResponseEntity<Void> cancelABooking(@PathVariable long bookingId) {
+        String responseCancel = taxiService.cancelABooking(bookingId);
+        return ResponseEntity.noContent().build();
     }
 }

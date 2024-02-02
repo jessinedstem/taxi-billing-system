@@ -17,16 +17,8 @@ import java.time.LocalDateTime;
 @Builder
 public class BookingResponse {
     private long bookingId;
-    private UserResponse user;
-    private TaxiResponse taxi;
-    @NotEmpty(message = "this should not be empty")
     private String pickupLocation;
-
-    @NotEmpty(message = "this should not be empty")
     private String dropOffLocation;
 
-    private long fare;
-    private LocalDateTime bookingTime;
-    private TaxiStatus status;
-}
+   }
 
