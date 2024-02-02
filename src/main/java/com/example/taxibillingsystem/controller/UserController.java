@@ -19,7 +19,7 @@ public class UserController {
         this.userService=userService;
     }
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@Valid @RequestBody UserRequest userRequest){
+    public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody UserRequest userRequest){
         UserResponse userResponse=userService.registerUser(userRequest);
         return ResponseEntity.ok(userResponse);
     }

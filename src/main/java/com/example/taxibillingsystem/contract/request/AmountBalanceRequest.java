@@ -10,6 +10,5 @@ import lombok.Getter;
 @Builder
 @ValidUserBalance
 public class AmountBalanceRequest {
-
-    private int accountBalance;
+    private long accountBalance;
 }
