@@ -24,6 +24,6 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private int accountBalance;
+    private long accountBalance;
 }
 
