@@ -13,7 +13,6 @@ import jakarta.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @Builder
 @ValidUserBalance
-
 public class UserRequest {
     @NotBlank(message = "Name should not be blank")
     private String name;
@@ -24,5 +23,5 @@ public class UserRequest {
     @Size(min = 8, message = "Password should have at least 8 characters")
     private String password;
     @NotEmpty(message = "AccountBalance should not be empty")
-    private int accountBalance;
+    private long accountBalance;
 }
