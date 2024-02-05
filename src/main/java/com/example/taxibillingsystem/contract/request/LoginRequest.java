@@ -5,10 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @AllArgsConstructor
 @Builder
+@Setter
 public class LoginRequest {
     @NotBlank(message = "Email should not be blank")
     @Email(message = "Email should be valid")

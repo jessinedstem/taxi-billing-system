@@ -15,5 +15,4 @@ public class TaxiResponse {
     private String driversName;
     private int licenseNumber;
     private String currentLocation;
-    private List<BookingResponse> bookingId;
-}
+   }

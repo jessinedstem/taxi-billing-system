@@ -45,8 +45,8 @@ public class TaxiController {
     }
 
     @DeleteMapping("/cancel/{bookingId}")
-    public ResponseEntity<Void> cancelABooking(@PathVariable long bookingId) {
+    public ResponseEntity<String> cancelABooking(@PathVariable long bookingId) {
         String responseCancel = taxiService.cancelABooking(bookingId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(responseCancel);
     }
 }

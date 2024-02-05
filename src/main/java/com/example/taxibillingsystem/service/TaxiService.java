@@ -33,9 +33,9 @@ public class TaxiService {
     @Autowired
     public TaxiService(TaxiRepository taxiRepository, BookingRepository bookingRepository, UserRepository userRepository, ModelMapper modelMapper) {
         this.taxiRepository = taxiRepository;
-        this.modelMapper = modelMapper;
         this.bookingRepository=bookingRepository;
         this.userRepository=userRepository;
+        this.modelMapper = modelMapper;
     }
     public TaxiResponse addATaxi(TaxiRequest taxiRequest) {
         Taxi taxi=Taxi.builder()
@@ -52,21 +52,18 @@ public class TaxiService {
             throw new UserNotFoundException("User Not Found");
         }
         Taxi bookedTaxi = taxiRepository.findByCurrentLocation(bookingRequest.getPickupLocation());
-        TaxiStatus status;
-        if (bookedTaxi == null) {
-            status = TaxiStatus.WAITING;
-        } else {
-            status = TaxiStatus.CONFIRMED;
-        }
+        TaxiStatus status = (bookedTaxi == null) ? TaxiStatus.WAITING : TaxiStatus.CONFIRMED;
+User user=bookedUser.get();
         Booking booking = Booking.builder()
-                .userId(bookedUser.get())
+                .userId(user)
                 .taxiId(bookedTaxi)
                 .pickupLocation(bookingRequest.getPickupLocation())
                 .dropOffLocation(bookingRequest.getDropOffLocation())
                 .bookingTime(LocalDateTime.now())
                 .status(status)
                 .build();
-        return modelMapper.map(booking, BookingResponse.class);
+        Booking savedBooking=bookingRepository.save(booking);
+        return modelMapper.map(savedBooking, BookingResponse.class);
     }
 
     public BookingResponse getBookingDetails(BookingRequest bookingRequest, long bookingId) {

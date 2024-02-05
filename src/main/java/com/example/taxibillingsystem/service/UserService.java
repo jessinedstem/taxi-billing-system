@@ -1,6 +1,6 @@
 package com.example.taxibillingsystem.service;
 
-import com.example.taxibillingsystem.contract.request.AmountBalanceRequest;
+import com.example.taxibillingsystem.contract.request.AccountBalanceRequest;
 import com.example.taxibillingsystem.contract.request.LoginRequest;
 import com.example.taxibillingsystem.contract.request.UserRequest;
 import com.example.taxibillingsystem.contract.response.UserResponse;
@@ -38,26 +38,27 @@ public class UserService {
     }
 
     public String loginDetails(LoginRequest loginRequest) {
-        User user = userRepository.findByEmail(loginRequest.getEmail());
-        if (user == null) {
+        Optional<User> user = userRepository.findByEmail(loginRequest.getEmail());
+        if (user.isEmpty()) {
             throw new UserNotFoundException("Invalid User");
         } else {
             return "Successfully logged in";
         }
     }
 
-    public UserResponse accountBalanceDetails(AmountBalanceRequest amountBalanceRequest, long userId) {
+    public UserResponse accountBalanceDetails(AccountBalanceRequest accountBalanceRequest, long userId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) {
             throw new UserNotFoundException("Invalid User");
         }
         User updatedUser = User.builder()
+                .userId(user.get().getUserId())
                 .name(user.get().getName())
                 .email(user.get().getEmail())
                 .password(user.get().getPassword())
-                .accountBalance(amountBalanceRequest.getAccountBalance())
+                .accountBalance(accountBalanceRequest.getAccountBalance())
                 .build();
-        userRepository.save(updatedUser);
-        return modelMapper.map(updatedUser, UserResponse.class);
+        User savedUser=userRepository.save(updatedUser);
+        return modelMapper.map(savedUser, UserResponse.class);
     }
 }

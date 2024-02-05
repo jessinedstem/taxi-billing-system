@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AmountBalanceResponse {
+public class AccountBalanceResponse {
     private long accountBalance;
 }

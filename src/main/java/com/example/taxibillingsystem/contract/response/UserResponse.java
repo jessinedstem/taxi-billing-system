@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserResponse {
-    private int userId;
+    private long userId;
     private String name;
     private String email;
     private String password;
-    private int accountBalance;
+    private long accountBalance;
 }
 

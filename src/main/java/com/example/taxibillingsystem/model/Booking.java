@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Booking-taxi")
+@Table(name = "booking")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -23,10 +23,13 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     private long bookingId;
-    @OneToOne
+
+    @ManyToOne
+    @JoinColumn(name = "users")
     private User userId;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "taxis")
     private Taxi taxiId;
 
     private String pickupLocation;
@@ -34,5 +37,7 @@ public class Booking {
     private int fare;
 
     private LocalDateTime bookingTime;
+
+    @Enumerated(EnumType.STRING)
     private TaxiStatus status;
 }
