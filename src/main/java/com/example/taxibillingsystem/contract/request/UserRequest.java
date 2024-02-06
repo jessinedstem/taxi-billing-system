@@ -12,7 +12,6 @@ import jakarta.validation.constraints.NotEmpty;
 @Getter
 @AllArgsConstructor
 @Builder
-@ValidUserBalance
 public class UserRequest {
     @NotBlank(message = "Name should not be blank")
     private String name;
@@ -22,6 +21,4 @@ public class UserRequest {
     @NotBlank(message = "password should not be blank")
     @Size(min = 8, message = "Password should have at least 8 characters")
     private String password;
-    @NotEmpty(message = "AccountBalance should not be empty")
-    private long accountBalance;
 }

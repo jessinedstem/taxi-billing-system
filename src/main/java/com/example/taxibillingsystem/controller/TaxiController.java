@@ -1,8 +1,11 @@
 package com.example.taxibillingsystem.controller;
 
 import com.example.taxibillingsystem.contract.request.BookingRequest;
+//import com.example.taxibillingsystem.contract.request.FareCalculationRequest;
 import com.example.taxibillingsystem.contract.request.TaxiRequest;
 import com.example.taxibillingsystem.contract.response.BookingResponse;
+//import com.example.taxibillingsystem.contract.response.FareCalculationResponse;
+import com.example.taxibillingsystem.contract.response.FareCalculationResponse;
 import com.example.taxibillingsystem.contract.response.TaxiResponse;
 import com.example.taxibillingsystem.service.TaxiService;
 import jakarta.validation.Valid;
@@ -38,9 +41,8 @@ public class TaxiController {
     }
 
     @GetMapping("/booking-details/{bookingId}")
-    public ResponseEntity<BookingResponse> getBookingDetails(@RequestBody BookingRequest bookingRequest,
-                                                             @PathVariable long bookingId) {
-        BookingResponse response= taxiService.getBookingDetails(bookingRequest,bookingId);
+    public ResponseEntity<BookingResponse> getBookingDetails(@PathVariable long bookingId) {
+        BookingResponse response= taxiService.getBookingDetails(bookingId);
         return ResponseEntity.ok(response);
     }
 
@@ -48,5 +50,12 @@ public class TaxiController {
     public ResponseEntity<String> cancelABooking(@PathVariable long bookingId) {
         String responseCancel = taxiService.cancelABooking(bookingId);
         return ResponseEntity.ok(responseCancel);
+    }
+    @PostMapping("/calculate-fare/{bookingId}")
+    public ResponseEntity<FareCalculationResponse> calculateFare(@RequestParam Double distanceInKm,
+                                                                 @RequestParam Double ratePerKm,
+                                                                 @PathVariable Long bookingId) {
+        FareCalculationResponse response = taxiService.calculateFare(distanceInKm,ratePerKm,bookingId);
+        return ResponseEntity.ok(response);
     }
 }

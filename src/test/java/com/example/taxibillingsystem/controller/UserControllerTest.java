@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,11 +24,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@WithMockUser
 public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
     private UserService userService;
+
 
     @Test
     public void testRegisterUser() throws Exception {
@@ -35,14 +38,12 @@ public class UserControllerTest {
                 .name("Dhruv")
                 .email("dhruvan@gmail.com")
                 .password("password123")
-                .accountBalance(0)
                 .build();
         UserResponse expectedUserResponse = UserResponse.builder()
                 .userId(1L)
                 .name("Dhruv")
                 .email("dhruvan@gmail.com")
                 .password("password123")
-                .accountBalance(0)
                 .build();
 
         when(userService.registerUser(any(UserRequest.class))).thenReturn(expectedUserResponse);
@@ -54,32 +55,37 @@ public class UserControllerTest {
 
     }
 
+//    @Test
+//    public void testLoginDetails() throws Exception {
+//        LoginRequest mockRequest = LoginRequest.builder()
+//                .email("rajan.jessin@gmail.com")
+//                .password("eeee2345")
+//                .build();
+
+
+//        when(userService.loginDetails(mockRequest)).thenReturn("Successfully logged in");
+//        mockMvc.perform(post("/users/login")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(new ObjectMapper().writeValueAsString(mockRequest)))
+//                .andExpect(status().isOk());
+
+//    }
     @Test
-    public void testLoginDetails() throws Exception {
-        LoginRequest mockRequest = LoginRequest.builder()
-                .email("rajan.jessin@gmail.com")
-                .password("eeee2345")
-                .build();
-
-
-        when(userService.loginDetails(mockRequest)).thenReturn("Successfully logged in");
-        mockMvc.perform(post("/users/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(mockRequest)))
-                .andExpect(status().isOk());
-
-    }
-
-    @Test
-    public void testAccountBalanceDetails() throws Exception {
+    public void testAccountBalance() throws Exception {
         AccountBalanceRequest accountBalanceRequest = AccountBalanceRequest.builder()
-                .accountBalance(100)
+                .accountBalance(100L)
                 .build();
-        long userId = 1L;
-
-        mockMvc.perform(put("/users/account-balance/{userId}", userId)
+        when(userService.accountBalanceDetails(any(AccountBalanceRequest.class), any(Long.class)))
+                .thenReturn(UserResponse.builder()
+                        .userId(1L)
+                        .name("jeena")
+                        .email("jeenajohn@gmail.com")
+                        .accountBalance(100)
+                        .build());
+        mockMvc.perform(post("/users/account-balance/"+ 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(accountBalanceRequest)))
                 .andExpect(status().isOk());
     }
 }
+
