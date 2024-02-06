@@ -1,0 +1,290 @@
+{
+	"info": {
+		"_postman_id": "6927b48e-98ba-407b-bf00-9c9d7a02a853",
+		"name": "TaxiBooking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30274173"
+	},
+	"item": [
+		{
+			"name": "Book A taxi",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2UyMzRAR21haWwuY29tIiwiaWF0IjoxNzA3MTkyOTE1LCJleHAiOjE3MDcxOTQ3MTV9.M-GQzD2lIHki4nYuEC_8cMYRfTeRFgfnyXS97R9-Vcs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pickupLocation\":\"Karuvatta\",\r\n    \"dropOffLocation\":\"Kattanam\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/taxi/bookATaxi/253",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"taxi",
+						"bookATaxi",
+						"253"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account Balance Update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGxsenlhYXp6MjM0QEdtYWlsLmNvbSIsImlhdCI6MTcwNzI0NTU2MCwiZXhwIjoxNzA3MjQ3MzYwfQ.VOV7UcVa5OKc386WQHXxy4l1JdNrJbYZkQoP3-KTBvs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountBalance\":1005\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/account-balance/302",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"account-balance",
+						"302"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add A Taxi",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2UyMzRAR21haWwuY29tIiwiaWF0IjoxNzA3MTkyOTE1LCJleHAiOjE3MDcxOTQ3MTV9.M-GQzD2lIHki4nYuEC_8cMYRfTeRFgfnyXS97R9-Vcs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"driversName\":\"Satheesh\",\r\n    \"licenseNumber\":1234560000,\r\n    \"currentLocation\":\"Kattanam\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/taxi/addATaxi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"taxi",
+						"addATaxi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Booking Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2UyMzRAR21haWwuY29tIiwiaWF0IjoxNzA3MTkyOTE1LCJleHAiOjE3MDcxOTQ3MTV9.M-GQzD2lIHki4nYuEC_8cMYRfTeRFgfnyXS97R9-Vcs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/taxi/booking-details/202",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"taxi",
+						"booking-details",
+						"202"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Booking",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2UyMzRAR21haWwuY29tIiwiaWF0IjoxNzA3MTkyOTE1LCJleHAiOjE3MDcxOTQ3MTV9.M-GQzD2lIHki4nYuEC_8cMYRfTeRFgfnyXS97R9-Vcs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/taxi/cancel/204",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"taxi",
+						"cancel",
+						"204"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Hiliya\",\r\n    \"email\":\"hlllzyaazz234@Gmail.com\",\r\n    \"password\":\"2345gzzzzz\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"hlllzyaazz234@Gmail.com\",\r\n    \"password\":\"2345gzzzzz\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FareCalculation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGxsenlhYXp6MjM0QEdtYWlsLmNvbSIsImlhdCI6MTcwNzI0NDQ3MSwiZXhwIjoxNzA3MjQ2MjcxfQ.wOfjQVb97Y4ritQ6i2_CVRljNTIVdTho-by3_6ch24w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/taxi/calculate-fare/202?distanceInKm=24.5&ratePerKm=10.5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"taxi",
+						"calculate-fare",
+						"202"
+					],
+					"query": [
+						{
+							"key": "distanceInKm",
+							"value": "24.5"
+						},
+						{
+							"key": "ratePerKm",
+							"value": "10.5"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

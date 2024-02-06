@@ -19,6 +19,10 @@ public class BookingResponse {
     private long bookingId;
     private String pickupLocation;
     private String dropOffLocation;
+    private UserInfoResponse user;
+    private TaxiInfoResponse taxi;
+    private LocalDateTime bookingTime;
+    private TaxiStatus status;
 
    }
 

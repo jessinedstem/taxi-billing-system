@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoginResponse {
-    private String email;
-    private String token;
+public class FareCalculationResponse {
+    private long bookingId;
+    private String pickupLocation;
+    private String dropOffLocation;
+    private double fare;
 }

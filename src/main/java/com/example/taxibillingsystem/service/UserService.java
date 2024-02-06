@@ -9,6 +9,7 @@ import com.example.taxibillingsystem.model.User;
 import com.example.taxibillingsystem.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(ModelMapper modelMapper, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(ModelMapper modelMapper, UserRepository userRepository,PasswordEncoder passwordEncoder) {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.passwordEncoder=passwordEncoder;
@@ -34,31 +35,31 @@ public class UserService {
                 .password(passwordEncoder.encode(userRequest.getPassword()))
                 .accountBalance(0)
                 .build();
-        return modelMapper.map(user, UserResponse.class);
+        User savedUser=userRepository.save(user);
+        return modelMapper.map(savedUser, UserResponse.class);
     }
 
-    public String loginDetails(LoginRequest loginRequest) {
-        Optional<User> user = userRepository.findByEmail(loginRequest.getEmail());
-        if (user.isEmpty()) {
-            throw new UserNotFoundException("Invalid User");
-        } else {
-            return "Successfully logged in";
-        }
-    }
+//    public String loginDetails(LoginRequest loginRequest) {
+//        Optional<User> user = userRepository.findByEmail(loginRequest.getEmail());
+//        if (user.isEmpty()) {
+//            throw new UserNotFoundException("Invalid User");
+//        } else {
+//            return "Successfully logged in";
+//        }
+//    }
 
     public UserResponse accountBalanceDetails(AccountBalanceRequest accountBalanceRequest, long userId) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) {
-            throw new UserNotFoundException("Invalid User");
-        }
+        User user = userRepository.findById(userId).orElseThrow(()->
+            new UserNotFoundException("User Not Found"));
+
         User updatedUser = User.builder()
-                .userId(user.get().getUserId())
-                .name(user.get().getName())
-                .email(user.get().getEmail())
-                .password(user.get().getPassword())
+                .userId(user.getUserId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .password(user.getPassword())
                 .accountBalance(accountBalanceRequest.getAccountBalance())
                 .build();
-        User savedUser=userRepository.save(updatedUser);
-        return modelMapper.map(savedUser, UserResponse.class);
+        User saved = userRepository.save(updatedUser);
+        return modelMapper.map(saved, UserResponse.class);
     }
 }

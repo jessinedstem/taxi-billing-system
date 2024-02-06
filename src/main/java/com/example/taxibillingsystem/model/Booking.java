@@ -3,6 +3,7 @@ package com.example.taxibillingsystem.model;
 
 import com.example.taxibillingsystem.contract.response.TaxiResponse;
 import com.example.taxibillingsystem.contract.response.UserResponse;
+import com.example.taxibillingsystem.validation.ValidBooking;
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Builder
+@ValidBooking
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,16 +27,16 @@ public class Booking {
     private long bookingId;
 
     @ManyToOne
-    @JoinColumn(name = "users")
+    @JoinColumn(name = "user_id")
     private User userId;
 
     @ManyToOne
-    @JoinColumn(name = "taxis")
+    @JoinColumn(name = "taxi_id")
     private Taxi taxiId;
 
     private String pickupLocation;
     private String dropOffLocation;
-    private int fare;
+    private double fare;
 
     private LocalDateTime bookingTime;
 

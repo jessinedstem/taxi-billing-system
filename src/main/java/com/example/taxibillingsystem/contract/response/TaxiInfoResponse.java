@@ -1,7 +1,14 @@
 package com.example.taxibillingsystem.contract.response;
 
+import lombok.*;
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Setter
 public class TaxiInfoResponse {
-    private long taxId;
+    private long taxiId;
     private String driversName;
-    private String licenseNumber;
+    private int licenseNumber;
 }
