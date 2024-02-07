@@ -18,6 +18,7 @@ import com.example.taxibillingsystem.model.User;
 import com.example.taxibillingsystem.repository.BookingRepository;
 import com.example.taxibillingsystem.repository.TaxiRepository;
 import com.example.taxibillingsystem.repository.UserRepository;
+import jakarta.validation.constraints.Positive;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,12 @@ public class TaxiService {
             throw new UserNotFoundException("User Not Found");
         }
         List<Taxi> listBookedTaxi = taxiRepository.findByCurrentLocation(bookingRequest.getPickupLocation());
-        Taxi bookedTaxi = listBookedTaxi.get(0);
+       Taxi bookedTaxi;
+        if(listBookedTaxi.size()==0){
+            bookedTaxi=null;
+        }else{
+            bookedTaxi=listBookedTaxi.get(0);
+        }
         TaxiStatus status = (bookedTaxi == null) ? TaxiStatus.WAITING : TaxiStatus.CONFIRMED;
         User user = bookedUser.get();
         Booking booking = Booking.builder()
@@ -94,7 +100,7 @@ public class TaxiService {
         }
     }
 
-    public FareCalculationResponse calculateFare(Double distanceInKm, Double ratePerKm, Long bookingId) {
+    public FareCalculationResponse calculateFare(@Positive Double distanceInKm, @Positive Double ratePerKm, Long bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new BookingNotFoundException("Booking Not Found"));
 

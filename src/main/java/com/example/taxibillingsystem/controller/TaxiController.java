@@ -1,10 +1,8 @@
 package com.example.taxibillingsystem.controller;
 
 import com.example.taxibillingsystem.contract.request.BookingRequest;
-//import com.example.taxibillingsystem.contract.request.FareCalculationRequest;
 import com.example.taxibillingsystem.contract.request.TaxiRequest;
 import com.example.taxibillingsystem.contract.response.BookingResponse;
-//import com.example.taxibillingsystem.contract.response.FareCalculationResponse;
 import com.example.taxibillingsystem.contract.response.FareCalculationResponse;
 import com.example.taxibillingsystem.contract.response.TaxiResponse;
 import com.example.taxibillingsystem.service.TaxiService;

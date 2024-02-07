@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Builder
-@ValidBooking
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
