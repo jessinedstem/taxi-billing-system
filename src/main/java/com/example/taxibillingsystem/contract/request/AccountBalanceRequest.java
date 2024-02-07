@@ -9,7 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ValidUserBalance
-@Setter
 public class AccountBalanceRequest {
 
     private long accountBalance;

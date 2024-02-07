@@ -3,10 +3,7 @@ package com.example.taxibillingsystem.service;
 import com.example.taxibillingsystem.TaxiBillingSystemApplication;
 import com.example.taxibillingsystem.contract.request.BookingRequest;
 import com.example.taxibillingsystem.contract.request.TaxiRequest;
-import com.example.taxibillingsystem.contract.response.BookingResponse;
-import com.example.taxibillingsystem.contract.response.TaxiInfoResponse;
-import com.example.taxibillingsystem.contract.response.TaxiResponse;
-import com.example.taxibillingsystem.contract.response.UserInfoResponse;
+import com.example.taxibillingsystem.contract.response.*;
 import com.example.taxibillingsystem.exception.BookingNotFoundException;
 import com.example.taxibillingsystem.model.Booking;
 import com.example.taxibillingsystem.model.Taxi;
@@ -22,6 +19,7 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -195,7 +193,46 @@ public void testCancelABooking() {
         String actualResult = taxiService.cancelABooking(bookingId);
         assertEquals("Successfully cancelled", actualResult);
         }
+    @Test
+    public void testCalculateFare() {
+        Long bookingId = 1L;
+        Double distanceInKm = 10.0;
+        Double ratePerKm = 5.0;
+        Double fareTotal = distanceInKm * ratePerKm;
+        DecimalFormat decimalFormat=new DecimalFormat("#.##");
+        decimalFormat.format(fareTotal);
+        Booking booking = Booking.builder()
+                .bookingId(1L)
+                .pickupLocation("Tiruvalla")
+                .dropOffLocation("Kollam")
+                .bookingTime(LocalDateTime.now())
+                .status(TaxiStatus.CONFIRMED)
+                .build();
+        Booking saved = Booking.builder()
+                .bookingId(booking.getBookingId())
+                .pickupLocation(booking.getPickupLocation())
+                .dropOffLocation(booking.getDropOffLocation())
+                .bookingTime(booking.getBookingTime())
+                .status(booking.getStatus())
+                .fare(fareTotal)
+                .build();
 
+        FareCalculationResponse fareCalculationResponse = FareCalculationResponse.builder()
+                .bookingId(saved.getBookingId())
+                .pickupLocation(saved.getPickupLocation())
+                .dropOffLocation(saved.getDropOffLocation())
+                .fare(saved.getFare())
+                .build();
+        when(bookingRepository.findById(bookingId)).thenReturn(Optional.of(booking));
+        when(bookingRepository.save(ArgumentMatchers.any(Booking.class))).thenReturn(saved);
+        when(modelMapper.map(saved, FareCalculationResponse.class)).thenReturn(fareCalculationResponse);
+        FareCalculationResponse actualResponse = taxiService.calculateFare(distanceInKm, ratePerKm, bookingId);
+        assertNotNull(actualResponse);
+        assertEquals(saved.getBookingId(), actualResponse.getBookingId());
+        assertEquals("Tiruvalla", actualResponse.getPickupLocation());
+        assertEquals("Kollam", actualResponse.getDropOffLocation());
+        assertEquals(saved.getFare(), actualResponse.getFare());
+    }
 @Test
 public void testGetBookingDetails_throwsException(){
         Long bookingId = 1L;
@@ -215,5 +252,13 @@ public void testCancelABooking_throwsException(){
         });
         assertEquals("Booking Not Found", exception.getMessage());
         }
+    @Test
+    public void testCalculateFare_BookingNotFound() {
+        long bookingId = 1L;
+        when(bookingRepository.findById(anyLong())).thenReturn(Optional.empty());
+        assertThrows(BookingNotFoundException.class,
+                () -> taxiService.calculateFare(10.0, 5.0, bookingId),
+                "Expected BookingNotFoundException when booking is not found");
+    }
 }
 
