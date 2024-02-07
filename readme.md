@@ -1,10 +1,15 @@
 Taxi Billing System Java Spring Boot Application
 
 Project Name	                  Taxi Billing System
+
 Abstract	                      This Java Spring Boot application serves a Taxi Billing System, allowing users to perform various operations related to booking a Taxi
+
 Languages Used	                Java
+
 IDE	                            Intellij Idea Professionl
+
 Database	                      PostgresQL(TaxiBillingSystem)
+
 Security	                      Jwt Authentication
 
 1.Introduction about my project
