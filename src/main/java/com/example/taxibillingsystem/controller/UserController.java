@@ -25,20 +25,28 @@ public class UserController {
     private final JwtService jwtService;
 
     @Autowired
-    public UserController(UserService userService,AuthenticationManager authenticationManager,JwtService jwtService) {
+    public UserController(
+            UserService userService,
+            AuthenticationManager authenticationManager,
+            JwtService jwtService) {
         this.userService = userService;
-        this.authenticationManager=authenticationManager;
-        this.jwtService=jwtService;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody UserRequest userRequest){
-        UserResponse userResponse=userService.registerUser(userRequest);
+    public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody UserRequest userRequest) {
+        UserResponse userResponse = userService.registerUser(userRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
+
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginDetails(@Valid @RequestBody LoginRequest loginRequest){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+    public ResponseEntity<LoginResponse> loginDetails(
+            @Valid @RequestBody LoginRequest loginRequest) {
+        Authentication authentication =
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                loginRequest.getEmail(), loginRequest.getPassword()));
         if (authentication.isAuthenticated()) {
             LoginResponse response = jwtService.generateToken(loginRequest.getEmail());
             return ResponseEntity.ok(response);
@@ -46,10 +54,12 @@ public class UserController {
             throw new UserNotFoundException("Invalid user request !");
         }
     }
+
     @PostMapping("/account-balance/{userId}")
-    public ResponseEntity<UserResponse> accountBalance(@Valid @RequestBody AccountBalanceRequest accountBalanceRequest,
-                                                       @PathVariable long userId){
-        UserResponse response=userService.accountBalanceDetails(accountBalanceRequest,userId);
+    public ResponseEntity<UserResponse> accountBalance(
+            @Valid @RequestBody AccountBalanceRequest accountBalanceRequest,
+            @PathVariable long userId) {
+        UserResponse response = userService.accountBalanceDetails(accountBalanceRequest, userId);
         return ResponseEntity.ok(response);
     }
 }

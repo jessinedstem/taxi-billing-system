@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -25,9 +24,16 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CancellationFailedException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public String handleCancellationFailedException(CancellationFailedException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(TaxiNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public String handleTaxiNotFoundException(TaxiNotFoundException ex) {
         return ex.getMessage();
     }
 
@@ -35,6 +41,13 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     public String handleUserNotFoundException(UserNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(InsufficientBalanceException.class)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public String handleInsufficientBalanceException(InsufficientBalanceException ex) {
         return ex.getMessage();
     }
 }

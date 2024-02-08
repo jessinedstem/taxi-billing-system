@@ -12,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/taxi")
 public class TaxiController {
@@ -32,15 +30,15 @@ public class TaxiController {
     }
 
     @PostMapping("/bookATaxi/{userId}")
-    public ResponseEntity<BookingResponse> bookATaxi(@Valid @RequestBody BookingRequest bookingRequest,
-                                                     @PathVariable long userId) {
-            BookingResponse bookingResponse = taxiService.bookATaxi(bookingRequest,userId);
-            return ResponseEntity.status(HttpStatus.CREATED).body(bookingResponse);
+    public ResponseEntity<BookingResponse> bookATaxi(
+            @Valid @RequestBody BookingRequest bookingRequest, @PathVariable long userId) {
+        BookingResponse bookingResponse = taxiService.bookATaxi(bookingRequest, userId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookingResponse);
     }
 
     @GetMapping("/booking-details/{bookingId}")
     public ResponseEntity<BookingResponse> getBookingDetails(@PathVariable long bookingId) {
-        BookingResponse response= taxiService.getBookingDetails(bookingId);
+        BookingResponse response = taxiService.getBookingDetails(bookingId);
         return ResponseEntity.ok(response);
     }
 
@@ -49,11 +47,14 @@ public class TaxiController {
         String responseCancel = taxiService.cancelABooking(bookingId);
         return ResponseEntity.ok(responseCancel);
     }
+
     @PostMapping("/calculate-fare/{bookingId}")
-    public ResponseEntity<FareCalculationResponse> calculateFare(@RequestParam Double distanceInKm,
-                                                                 @RequestParam Double ratePerKm,
-                                                                 @PathVariable Long bookingId) {
-        FareCalculationResponse response = taxiService.calculateFare(distanceInKm,ratePerKm,bookingId);
+    public ResponseEntity<FareCalculationResponse> calculateFare(
+            @RequestParam Double distanceInKm,
+            @RequestParam Double ratePerKm,
+            @PathVariable Long bookingId) {
+        FareCalculationResponse response =
+                taxiService.calculateFare(distanceInKm, ratePerKm, bookingId);
         return ResponseEntity.ok(response);
     }
 }

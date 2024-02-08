@@ -1,15 +1,11 @@
 package com.example.taxibillingsystem.contract.response;
 
-import com.example.taxibillingsystem.contract.request.TaxiRequest;
-import com.example.taxibillingsystem.contract.request.UserRequest;
-import com.example.taxibillingsystem.model.TaxiStatus;
-import jakarta.validation.constraints.NotEmpty;
+import com.example.taxibillingsystem.enums.TaxiStatus;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -23,6 +19,4 @@ public class BookingResponse {
     private TaxiInfoResponse taxi;
     private LocalDateTime bookingTime;
     private TaxiStatus status;
-
-   }
-
+}

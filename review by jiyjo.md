@@ -7,4 +7,3 @@
 * There is a commented line of code in TaxiRepository,UserService,UserControllerTest.
 * When booking a taxi  in response is shown as null.
 * fare deduction from user's account balance is not implemented.
- 
