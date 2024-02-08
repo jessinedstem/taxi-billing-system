@@ -1,8 +1,10 @@
 package com.example.taxibillingsystem.contract.request;
 
 import com.example.taxibillingsystem.validation.ValidUserBalance;
-import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor

@@ -2,7 +2,6 @@ package com.example.taxibillingsystem.contract.response;
 
 import lombok.*;
 
-import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,4 +12,4 @@ public class TaxiResponse {
     private String driversName;
     private int licenseNumber;
     private String currentLocation;
-   }
+}

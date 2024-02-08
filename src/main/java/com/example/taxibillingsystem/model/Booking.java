@@ -1,17 +1,12 @@
 package com.example.taxibillingsystem.model;
 
-
-import com.example.taxibillingsystem.contract.response.TaxiResponse;
-import com.example.taxibillingsystem.contract.response.UserResponse;
-import com.example.taxibillingsystem.validation.ValidBooking;
+import com.example.taxibillingsystem.enums.TaxiStatus;
 import jakarta.persistence.*;
-
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "booking")
@@ -22,7 +17,6 @@ import java.time.LocalDateTime;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private long bookingId;
 
     @ManyToOne
